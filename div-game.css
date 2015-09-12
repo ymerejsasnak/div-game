@@ -1,0 +1,55 @@
+html, body {
+    height: 90%;   
+}
+
+body {
+    background: lightblue;
+}
+
+#grid-container {
+    width: 80%;
+    height: 80%;
+    margin: 3% auto;
+
+    border: 1px solid black;
+    border-radius: 25px;
+    background: lightgray;
+    box-shadow: 0 0 15px 10px black;
+}
+
+.cell {
+    float: left;
+
+    width: 10.5%;
+    height: 20.5%;
+    margin: 1%;
+
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 50%;
+
+    box-shadow: inset 5px 5px 15px black, inset -10px -10px 25px black, 5px 5px 20px darkgray;
+    background: darkgray;
+}
+
+.cell:hover {
+    border: 1px solid white;
+}
+
+
+
+#game-stats {
+    width: 80%;
+    height: 10%;
+    margin: 4% auto;
+
+    border: 1px solid black;
+    border-radius: 25px;
+    background: lightgray;
+    box-shadow: 0 0 15px 10px black;
+}
+
+p {
+    font-size: 2em;
+    margin: 1.5%;
+}
