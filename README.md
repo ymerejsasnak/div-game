@@ -11,5 +11,6 @@ simple click for points game to relearn some html/css/js
 - add endgame display
 - add some functionality buttons (at least a play again button?)
 - add a legend for different items?
-- add different point types (subtractors, multpliers)
 - add xray item (see one cell before actually clicking it)
+
+## BUG: can click endlessly on already clicked cells...must disable them! (removeeventlistener)

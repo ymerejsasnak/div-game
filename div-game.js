@@ -30,7 +30,6 @@
             
             cell.item = items[i];
         
-            //event listener for cell (can't get this to work as separate function?!?!?)
             cell.addEventListener('click', showItem, false);
             
             container.appendChild(cell);
@@ -54,9 +53,14 @@
             this.style.color = 'orange';
             multiplier++;
             multiplierSpan.innerHTML = multiplier;
+        } else if (this.item === '1/2') {
+            this.innerHTML = '<p class="item">' + this.item + '</p>'
+            this.style.color = 'red';
+            score = score / 2;
+            scoreSpan.innerHTML = score;
         } else if (this.item === 'BOMB') {
             this.innerHTML = '<p class="item">' + this.item + '</p>';
-            this.style.color = 'red';
+            this.style.background = 'red';
             defusers--;
             defusersSpan.innerHTML = defusers;
             if (defusers < 0) {
@@ -71,7 +75,7 @@
         var items = [];
         var bombs = [];
         var mult1, mult2;
-        var sub;
+        var sub, half;
        
         //first fill with regular points
         for (var i = 0; i < TOTAL_CELLS; i++) {
@@ -101,7 +105,13 @@
         } while (bombs.indexOf(sub) > -1 || sub === mult1 || sub === mult2);
        
         items[sub] = -300;
+
+        //add score halver
+        do {
+            half = Math.floor(Math.random() * TOTAL_CELLS);
+        } while (bombs.indexOf(half) > -1 || half === mult1 || half === mult2 || half === sub);
        
+        items[half] = '1/2';
 
 
         return items;
