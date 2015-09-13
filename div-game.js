@@ -11,9 +11,11 @@
 
 
     var score = 0;
-    var defusers = 2;
+    var defusers = 4; //TEMPORARY TO TEST!  CHANGE IT BACK TO 2 (OR 1 IF I ADD BONUS DEFUSERS?)
+    var multiplier = 1;
     var scoreSpan = document.getElementById('score');
-    var defusersSpan = document.getElementById('defusers')
+    var defusersSpan = document.getElementById('defusers');
+    var multiplierSpan = document.getElementById('multiplier');
     
 
 
@@ -38,12 +40,22 @@
 
     function showItem() {
         this.style.background = 'white';
-        this.innerHTML = '<p class="item">' + this.item + '</p>';
         if (typeof(this.item) === 'number') {
-            this.style.color = 'green';
-            score += this.item;
+            this.innerHTML = '<p class="item">' + (this.item * multiplier) + '</p>';
+            if (this.item < 0) {
+                this.style.color = 'black';
+            } else {
+                this.style.color = 'green';
+            }
+            score += this.item * multiplier;
             scoreSpan.innerHTML = score;
+        } else if (this.item === 'X') {
+            this.innerHTML = '<p class="item">' + this.item + '</p>';
+            this.style.color = 'orange';
+            multiplier++;
+            multiplierSpan.innerHTML = multiplier;
         } else if (this.item === 'BOMB') {
+            this.innerHTML = '<p class="item">' + this.item + '</p>';
             this.style.color = 'red';
             defusers--;
             defusersSpan.innerHTML = defusers;
@@ -58,6 +70,8 @@
     function makeItems() {
         var items = [];
         var bombs = [];
+        var mult1, mult2;
+        var sub;
        
         //first fill with regular points
         for (var i = 0; i < TOTAL_CELLS; i++) {
@@ -66,8 +80,29 @@
 
         //generate bombs (one per row)
         for (var row = 0; row < TOTAL_CELLS / ROW_LENGTH; row++) {
-            items[Math.floor(Math.random() * ROW_LENGTH) + (row * ROW_LENGTH)] = 'BOMB';
+            bombs.push(Math.floor(Math.random() * ROW_LENGTH) + (row * ROW_LENGTH))
+            items[bombs[row]] = 'BOMB';
         }
+
+        //add two multipliers (but don't overwrite bombs)
+        do {
+            mult1 = Math.floor(Math.random() * TOTAL_CELLS);
+        } while (bombs.indexOf(mult1) > -1);
+        do {
+            mult2 = Math.floor(Math.random() * TOTAL_CELLS);
+        } while (bombs.indexOf(mult2) > -1 || mult1 === mult2);
+
+        items[mult1] = 'X'
+        items[mult2] = 'X'
+
+        //add big subtractor (without overwriting bombs/mults)
+        do {
+            sub = Math.floor(Math.random() * TOTAL_CELLS);
+        } while (bombs.indexOf(sub) > -1 || sub === mult1 || sub === mult2);
+       
+        items[sub] = -300;
+       
+
 
         return items;
     }
@@ -88,6 +123,7 @@
     makeDivs(makeItems());
     scoreSpan.innerHTML = score;
     defusersSpan.innerHTML = defusers;
+    multiplierSpan.innerHTML = multiplier;
     
 
 
