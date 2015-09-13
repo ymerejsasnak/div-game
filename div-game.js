@@ -13,16 +13,21 @@
             cell.className = 'cell';
             cell.id = i;
 
+            //event listener for click (contents of function are just placeholder for now)
+            cell.onclick = function() {
+                this.style.background = "white";
+            }
+
             container.appendChild(cell);
 
         }
-
     }
 
 
 
 
     makeDivs();
+    
 
 
 
