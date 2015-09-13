@@ -16,6 +16,7 @@
     var scoreSpan = document.getElementById('score');
     var defusersSpan = document.getElementById('defusers');
     var multiplierSpan = document.getElementById('multiplier');
+    var body = document.getElementById('bg');
 
     var bombColumns = [];
     
@@ -60,19 +61,30 @@
             }
             score += this.item * multiplier;
             scoreSpan.innerHTML = score;
-        } else if (this.item === 'X') {
+        } 
+
+        else if (this.item === 'X') {
             multiplier++;
             this.innerHTML = '<p class="item">' + this.item + ' ' + multiplier + '</p>';
             this.style.color = 'blue';
             this.style.fontWeight = 'bold';
             multiplierSpan.innerHTML = multiplier;
-        } else if (this.item === '1/2') {
+        } 
+
+        else if (this.item === '1/2') {
             this.innerHTML = '<p class="item">' + this.item + '</p>'
             this.style.color = 'red';
             score = score / 2;
             scoreSpan.innerHTML = score;
-        } else if (this.item === 'BOMB') {
+        }
+
+        else if (this.item === 'BOMB') {
             this.style.background = 'red';
+            
+            //flash when clicked on bomb
+            bg.style.background = 'red';
+            window.setTimeout(function() { bg.style.background = 'lightblue'; }, 200);
+
             defusers--;
             defusersSpan.innerHTML = defusers;
             if (defusers < 0) {
