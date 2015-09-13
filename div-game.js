@@ -3,7 +3,11 @@
 (function(){
 
     var TOTAL_CELLS = 32;
+    var cellContents = [];
+    var score = 0;
+    var scoreDiv = document.getElementById('score');
     
+
     function makeDivs() {
         var container = document.getElementById('grid-container');
         var cell;
@@ -12,21 +16,41 @@
             cell = document.createElement('div');
             cell.className = 'cell';
             cell.id = i;
+            
+            cell.item = Math.floor(Math.random() * 10);
+            if (cell.item <= 1) {
+                cell.item = 'BOMB';
+                cell.style.color = 'red';
+            } else {
+                cell.item *= 10;
+            }
 
-            //event listener for click (contents of function are just placeholder for now)
+
+
+            //event listener for click
             cell.onclick = function() {
-                this.style.background = "white";
+                this.style.background = 'white';
+                this.innerHTML = '<p class="item">' + this.item + '</p>';
+                if (typeof(this.item) === 'number') {
+                    score += this.item;
+                    scoreDiv.innerHTML = score;
+                } else if (this.item === 'BOMB') {
+                    //nothing yet...
+
+                }               
             }
 
             container.appendChild(cell);
-
         }
+
+        return cellContents;
     }
 
 
+    
 
 
-    makeDivs();
+    cellContents = makeDivs();
     
 
 
