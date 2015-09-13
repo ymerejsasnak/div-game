@@ -11,11 +11,13 @@
 
 
     var score = 0;
-    var defusers = 4; //TEMPORARY TO TEST!  CHANGE IT BACK TO 2 (OR 1 IF I ADD BONUS DEFUSERS?)
+    var defusers = 1;
     var multiplier = 1;
     var scoreSpan = document.getElementById('score');
     var defusersSpan = document.getElementById('defusers');
     var multiplierSpan = document.getElementById('multiplier');
+
+    var bombColumns = [];
     
 
 
@@ -38,7 +40,17 @@
 
 
     function showItem() {
-        this.style.background = 'white';
+        var column = this.id % ROW_LENGTH;
+
+        this.removeEventListener('click', showItem, false);
+        
+        //check for bomb(s) in same column to give warning color
+        if (bombColumns.indexOf(column) > -1) {
+            this.style.background = 'yellow';
+        } else {
+            this.style.background = 'white';
+        }
+
         if (typeof(this.item) === 'number') {
             this.innerHTML = '<p class="item">' + (this.item * multiplier) + '</p>';
             if (this.item < 0) {
@@ -49,9 +61,10 @@
             score += this.item * multiplier;
             scoreSpan.innerHTML = score;
         } else if (this.item === 'X') {
-            this.innerHTML = '<p class="item">' + this.item + '</p>';
-            this.style.color = 'orange';
             multiplier++;
+            this.innerHTML = '<p class="item">' + this.item + ' ' + multiplier + '</p>';
+            this.style.color = 'blue';
+            this.style.fontWeight = 'bold';
             multiplierSpan.innerHTML = multiplier;
         } else if (this.item === '1/2') {
             this.innerHTML = '<p class="item">' + this.item + '</p>'
@@ -59,7 +72,6 @@
             score = score / 2;
             scoreSpan.innerHTML = score;
         } else if (this.item === 'BOMB') {
-            this.innerHTML = '<p class="item">' + this.item + '</p>';
             this.style.background = 'red';
             defusers--;
             defusersSpan.innerHTML = defusers;
@@ -74,6 +86,7 @@
     function makeItems() {
         var items = [];
         var bombs = [];
+        var column;
         var mult1, mult2;
         var sub, half;
        
@@ -84,7 +97,9 @@
 
         //generate bombs (one per row)
         for (var row = 0; row < TOTAL_CELLS / ROW_LENGTH; row++) {
-            bombs.push(Math.floor(Math.random() * ROW_LENGTH) + (row * ROW_LENGTH))
+            column = Math.floor(Math.random() * ROW_LENGTH);
+            bombs.push(column + row * ROW_LENGTH);
+            bombColumns.push(column); //for checking for hints
             items[bombs[row]] = 'BOMB';
         }
 

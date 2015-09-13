@@ -57,6 +57,7 @@ body {
 
 .stats {
     display: inline-block;
+    margin-left: 14%;
 }
 
 p {
