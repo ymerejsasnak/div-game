@@ -11,7 +11,9 @@
 
 
     var score = 0;
-    var scoreDiv = document.getElementById('score');
+    var defusers = 2;
+    var scoreSpan = document.getElementById('score');
+    var defusersSpan = document.getElementById('defusers')
     
 
 
@@ -26,20 +28,30 @@
             
             cell.item = items[i];
         
-            //event listener for cell
-            cell.onclick = function() {
-                this.style.background = 'white';
-                this.innerHTML = '<p class="item">' + this.item + '</p>';
-                if (typeof(this.item) === 'number') {
-                    score += this.item;
-                    scoreDiv.innerHTML = score;
-                } else if (this.item === 'BOMB') {
-                    this.style.color = 'red';
-                }
-            }               
+            //event listener for cell (can't get this to work as separate function?!?!?)
+            cell.addEventListener('click', showItem, false);
             
             container.appendChild(cell);
         }
+    }
+
+
+    function showItem() {
+        this.style.background = 'white';
+        this.innerHTML = '<p class="item">' + this.item + '</p>';
+        if (typeof(this.item) === 'number') {
+            this.style.color = 'green';
+            score += this.item;
+            scoreSpan.innerHTML = score;
+        } else if (this.item === 'BOMB') {
+            this.style.color = 'red';
+            defusers--;
+            defusersSpan.innerHTML = defusers;
+            if (defusers < 0) {
+                defusersSpan.innerHTML = 0;
+                endGame();
+            }
+        }               
     }
 
 
@@ -61,10 +73,21 @@
     }
 
 
+    function endGame() {
+        var cell;
+        //remove all event listeners (disable clicking on them anymore)
+        for (var i = 0; i < TOTAL_CELLS; i++) {
+            cell = document.getElementById(i);
+            cell.removeEventListener('click', showItem, false);
+        }
+    }
+
 
 
     //run game
     makeDivs(makeItems());
+    scoreSpan.innerHTML = score;
+    defusersSpan.innerHTML = defusers;
     
 
 
