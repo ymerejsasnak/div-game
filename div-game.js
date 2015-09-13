@@ -3,7 +3,7 @@
 (function(){
 
     var TOTAL_CELLS = 32;
-    var cellContents = [];
+    var cellContents = []; //this isn;t used currently...do I need it?
     var score = 0;
     var scoreDiv = document.getElementById('score');
     
