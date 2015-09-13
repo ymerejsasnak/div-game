@@ -2,13 +2,20 @@
 
 (function(){
 
+    //treat these as constants
     var TOTAL_CELLS = 32;
-    var cellContents = []; //this isn;t used currently...do I need it?
+    var ROW_LENGTH = 8;
+    var POINTS_SCALE = 10;
+    var POINTS_MIN = 10;
+    var POINTS_MAX = 200;
+
+
     var score = 0;
     var scoreDiv = document.getElementById('score');
     
 
-    function makeDivs() {
+
+    function makeDivs(items) {
         var container = document.getElementById('grid-container');
         var cell;
         
@@ -17,17 +24,9 @@
             cell.className = 'cell';
             cell.id = i;
             
-            cell.item = Math.floor(Math.random() * 10);
-            if (cell.item <= 1) {
-                cell.item = 'BOMB';
-                cell.style.color = 'red';
-            } else {
-                cell.item *= 10;
-            }
-
-
-
-            //event listener for click
+            cell.item = items[i];
+        
+            //event listener for cell
             cell.onclick = function() {
                 this.style.background = 'white';
                 this.innerHTML = '<p class="item">' + this.item + '</p>';
@@ -35,22 +34,37 @@
                     score += this.item;
                     scoreDiv.innerHTML = score;
                 } else if (this.item === 'BOMB') {
-                    //nothing yet...
-
-                }               
-            }
-
+                    this.style.color = 'red';
+                }
+            }               
+            
             container.appendChild(cell);
         }
-
-        return cellContents;
     }
 
 
-    
+    function makeItems() {
+        var items = [];
+        var bombs = [];
+       
+        //first fill with regular points
+        for (var i = 0; i < TOTAL_CELLS; i++) {
+            items[i] = (Math.floor(Math.random() * POINTS_MAX / POINTS_MIN) * POINTS_SCALE) + POINTS_MIN;
+        }
+
+        //generate bombs (one per row)
+        for (var row = 0; row < TOTAL_CELLS / ROW_LENGTH; row++) {
+            items[Math.floor(Math.random() * ROW_LENGTH) + (row * ROW_LENGTH)] = 'BOMB';
+        }
+
+        return items;
+    }
 
 
-    cellContents = makeDivs();
+
+
+    //run game
+    makeDivs(makeItems());
     
 
 
