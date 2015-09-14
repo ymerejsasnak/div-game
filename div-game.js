@@ -152,6 +152,7 @@
             cell = document.getElementById(i);
             cell.removeEventListener('click', showItem, false);
         }
+        scoreSpan.className += " end-animation";
     }
 
 

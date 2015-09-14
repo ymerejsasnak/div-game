@@ -6,9 +6,7 @@ simple click for points game to relearn some html/css/js
 
 
 
-## TO DO:
+## TO DO?
 - separate things out into their own functions where appropriate so as to better add more features/functionality
-- add endgame display
 - add some functionality buttons (at least a play again button?)
 - add a legend for different items?
-- make screen flash when bomb is selected?

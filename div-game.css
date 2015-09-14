@@ -64,3 +64,20 @@ p {
     font-size: 2em;
     margin: 1.5%;
 }
+
+#score {
+    
+}
+
+.end-animation {
+    font-weight: bold;
+    animation-name: end;
+    animation-duration: .5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes end {
+    from {transform: rotate(-10deg);}
+    to {transform: rotate(10deg);}
+}
